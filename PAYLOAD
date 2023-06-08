@@ -1,0 +1,22 @@
+const tmp = AudioContext.prototype.createMediaElementSource;
+AudioContext.prototype.createMediaElementSourceBak = tmp;
+AudioContext.prototype.createMediaElementSource = function (e) {
+console.log(e);
+console.log(this);
+const src = this.createMediaElementSourceBak(e);
+console.log(src);
+var analyser = this.createAnalyser();
+src.connect(analyser);
+analyser.connect(this.destination);
+analyser.fftSize = 256;
+console.log(analyser);
+return src;
+}
+
+
+var bufferLength = analyser.frequencyBinCount;
+    var dataArray = new Uint8Array(bufferLength);
+
+analyser.getByteFrequencyData(dataArray);
+
+console.log(dataArray);
