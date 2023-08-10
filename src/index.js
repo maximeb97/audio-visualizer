@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { MessageHandlerProvider } from '#Browser/Contexts/MessageHandler'
 
+window.React = React
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <MessageHandlerProvider>
     <App />
+    </MessageHandlerProvider>
   </React.StrictMode>
 );
 
