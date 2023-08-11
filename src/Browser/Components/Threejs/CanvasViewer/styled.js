@@ -11,6 +11,8 @@ export default styled(CanvasViewer)`
     top: 10px;
     z-index: 111;
     mix-blend-mode: exclusion;
+    pointer-events: all;
+
     svg {
       width: 35px;
       cursor: pointer;

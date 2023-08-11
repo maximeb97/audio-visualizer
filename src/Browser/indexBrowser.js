@@ -6,7 +6,7 @@ import { MessageHandlerProvider } from '#Browser/Contexts/MessageHandler'
 window.React = React;
 const body = document.getElementsByTagName('body')[0];
 const rootElement = document.createElement("div");
-body.appendChild(rootElement);
+body.prepend(rootElement);
 const root = ReactDOM.createRoot(rootElement);
 
 const injectedScript = document.getElementById('audio-visualiser');

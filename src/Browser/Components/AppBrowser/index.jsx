@@ -5,10 +5,11 @@ import Movable from "#Browser/Components/Movable/styled";
 import { useMessageHandler } from "#Browser/Contexts/MessageHandler";
 import CanvasViewer from "#Browser/Components/Threejs/CanvasViewer/styled";
 
-const AppBrowser = props => {
+const AppBrowser = ({className}) => {
   const [analyser, setAnalyser] = useState(undefined);
   const [analyserConfig, setAnalyserConfig] = useState(undefined);
   const [size, setSize] = useState({ width: 300, height: 250 });
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [fragmentShader, setFShader] = useState("");
   const [vertexShader, setVShader] = useState("");
   const [isActive, setIsActive] = useState(true);
@@ -93,25 +94,34 @@ const AppBrowser = props => {
     };
   }, []);
 
+  if (!isActive) {
+    return <></>;
+  }
+
   return (
-    <Movable size={size} setSize={setSize}>
-      {analyserConfig && (
-        <analyserConfig.component
-          setAnalyser={setAnalyser}
-          {...analyserConfig.params}
-        />
-      )}
-      {(analyser && (fragmentShader || vertexShader)) && (
-        <CanvasViewer
-          id="canvas"
-          getFrequency={getFreq}
-          getFrequencyArray={getFreqArray}
-          size={size}
-          fragmentShader={fragmentShader}
-          vertexShader={vertexShader}
-        />
-      )}
-    </Movable>
+    <div className={className}>
+      <Movable size={size} setSize={setSize} position={position} setPosition={setPosition}>
+        {analyserConfig && (
+          <analyserConfig.component
+            setAnalyser={setAnalyser}
+            {...analyserConfig.params}
+          />
+        )}
+        {(analyser && (fragmentShader || vertexShader)) && (
+          <CanvasViewer
+            id="canvas"
+            getFrequency={getFreq}
+            getFrequencyArray={getFreqArray}
+            setSize={setSize}
+            size={size}
+            setPosition={setPosition}
+            position={position}
+            fragmentShader={fragmentShader}
+            vertexShader={vertexShader}
+          />
+        )}
+      </Movable>
+    </div>
   );
 };
 

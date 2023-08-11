@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Rnd } from "react-rnd";
 
-const Movable = ({ children, size, setSize, ...props }) => {
+const Movable = ({ children, size, setSize, position, setPosition, ...props }) => {
   const ref = useRef();
-  const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const onResize = (e, direction, ref, delta, position) => {
     setSize({
@@ -16,6 +15,26 @@ const Movable = ({ children, size, setSize, ...props }) => {
   const onMove = (e, d) => {
     setPosition({ x: d.x, y: d.y });
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newWidth = document.documentElement.clientWidth;
+      const newHeight = document.documentElement.clientHeight;
+
+      setSize({
+        width: size.width - (size.width > newWidth ? size.width - newWidth : 0),
+        height: size.height - (size.height > newHeight ? size.height - newHeight : 0),
+      })
+      setPosition({
+        x: position.x - (position.x + size.width > newWidth ? size.width - newWidth : 0),
+        y: position.y - (position.y + size.height > newHeight ? size.height - newHeight : 0),
+      })
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    }
+  }, [])
 
   return (
     <div {...props} ref={ref}>
